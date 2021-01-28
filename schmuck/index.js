@@ -9,7 +9,7 @@ let version = 0.1;
 //Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
 g.start();
-let cats, title, ship;
+let cats, title, ship, final_frontier, bullet;
 
 function load() {
     g.loadingBar();
@@ -28,20 +28,19 @@ function setup() {
     playButton.y = 350;
 	
 	finalFrontier = g.rectangle(512, 512, "black");
-	finalFrontier.x = 514;
 	
-	ship = g.circle(25, "blue", "black", 5, 750, 400);
+  ship = g.circle(25, "blue", "black", 5, 750, 400);
+  
+  bullets = [];
     
 	titleScene = g.group(title, playButton);
-    gameScene = g.group(ship, finalFrontier);
+    gameScene = g.group(ship);
 
     g.makeInteractive(playButton);
     playButton.press = function () {
         g.slide(titleScene, -514, 0, 30, "decelerationCubed");
         g.slide(gameScene, -514, 0, 30, "decelerationCubed");
     }
-	
-	let collision = g.contain(ship, finalFrontier);
 
     let leftArrow = g.keyboard(37),
     upArrow = g.keyboard(38),
@@ -73,8 +72,12 @@ function setup() {
     };
 
     space.press = () => {
-        console.log("space");
-    }
+        g.shoot(ship, 4.71, 0, 0, g.stage, 10, bullets, 
+        function () {
+          return g.circle(8, "red");
+        });
+
+    };
     g.state = play;
 
 }
@@ -83,5 +86,5 @@ function play() {
     //Rotate the text
     //message.rotation += 0.1;
     g.move(ship);
-
+    g.move(bullets);
 }
