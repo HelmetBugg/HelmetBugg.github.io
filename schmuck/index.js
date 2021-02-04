@@ -10,7 +10,7 @@ let once = false;
 //Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
 g.start();
-let cats, title, ship, final_frontier, bullet, spawner;
+let cats, enemies, title, ship, final_frontier, bullet, spawner;
 
 function load() {
     g.loadingBar();
@@ -26,17 +26,17 @@ function setup() {
     playButton.y = 350;
 	
 	finalFrontier = g.rectangle(512, 512, "black");
-    ship = g.circle(25, "blue", "black", 5, 750, 400);
+    ship = g.circle(25, "blue", "black", 5, 238, 400);
     bullets = [];
     enemies = [];
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
 	titleScene = g.group(title, playButton);
-    gameScene = g.group(ship);
+    gameScene = g.group(ship, spawner);
 
     g.makeInteractive(playButton);
     playButton.press = function () {
         g.slide(titleScene, -514, 0, 30, "decelerationCubed");
-        g.slide(gameScene, -514, 0, 30, "decelerationCubed");
+        //g.slide(gameScene, -514, 0, 30, "decelerationCubed");
         once=true;
     }
 
@@ -79,7 +79,7 @@ function play() {
         once = false;
         // Set enemy spawner
         setInterval(function(){ 
-            g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, bullets, 
+            g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
             function () {return g.circle(12, "red");}); 
          }, 300);
     }
@@ -88,11 +88,34 @@ function play() {
     g.move(bullets);
     // Removing Bullets out of bounds.
     bullets = bullets.filter(function (bullet) {
-        var collision = g.outsideBounds(bullet, g.stage);
-        if (collision){
+        var boundsCollision = g.outsideBounds(bullet, g.stage);
+        var enemyCollision = false;
+        enemies = enemies.filter(function (enemy) {
+            if(g.hitTestCircle(bullet, enemy)){
+                g.remove(enemy);
+                enemyCollision = true;
+                return false;
+            }
+            return true;
+        });
+
+        if (boundsCollision || enemyCollision){
+            console.log("collis");
             g.remove(bullet);
+            return false;
+        } 
+        return true;
+    });
+
+    g.move(enemies);
+    enemies = enemies.filter(function (enemy) {
+        if(g.hitTestCircle(ship, enemy)){
+            g.remove(enemy);
             return false;
         }
         return true;
-     });
+    });
+
+    
+
 }
