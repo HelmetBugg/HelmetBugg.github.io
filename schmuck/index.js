@@ -1,5 +1,7 @@
 let thingsToLoad = [
-    "shoot.wav"    
+    "res/sounds/music.wav",
+    "res/sounds/shoot.wav",
+    "res/sounds/explosion.wav"
 ];
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
@@ -22,16 +24,18 @@ function load() {
 }
 
 function setup() {
-    music = g.sound("shoot.wav");
+    music = g.sound("res/sounds/music.wav");
+    shootSound = g.sound("res/sounds/shoot.wav");
+    enemyDeathSound = g.sound("res/sounds/explosion.wav");
 
     title = g.text("Schmuck " + version, "38px puzzler", "red");
     g.stage.putCenter(title);
     title.pivotX = 0.5;
     title.pivotY = 0.5;
     playButton = g.text("Play", "38px puzzler", "red");
-    playButton.x = 400;
+    playButton.x = 400; 
     playButton.y = 350;
-	
+
 	finalFrontier = g.rectangle(512, 512, "black");
     ship = g.circle(25, "blue", "black", 5, 238, 400);
     bullets = [];
@@ -44,7 +48,9 @@ function setup() {
     playButton.press = function () {
         g.slide(titleScene, -514, 0, 30, "decelerationCubed");
         //g.slide(gameScene, -514, 0, 30, "decelerationCubed");
-        once=true;
+        music.loop = true;
+        music.play();
+        once = true;
     }
 
     // controls
@@ -57,6 +63,7 @@ function setup() {
         ship.vx = -5;
         ship.vy = 0;
     };
+
     leftArrow.release = () => {
         if (!rightArrow.isDown && ship.vy === 0) {
             ship.vx = 0;
@@ -72,6 +79,7 @@ function setup() {
         }
     };
     space.press = () => {
+        shootSound.play();
         g.shoot(ship, 4.71, 12.5, 12.5, g.stage, 10, bullets, 
         function () {
           return g.circle(8, "yellow");
@@ -99,6 +107,7 @@ function play() {
         var enemyCollision = false;
         enemies = enemies.filter(function (enemy) {
             if(g.hitTestCircle(bullet, enemy)){
+                enemyDeathSound.play();
                 g.remove(enemy);
                 enemyCollision = true;
                 return false;
