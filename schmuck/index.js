@@ -1,5 +1,7 @@
 let thingsToLoad = [
-    "res/alien.png",
+    "res/sounds/explosion.wav",
+    "res/sounds/music.wav",
+    "res/sounds/shoot.wav"    
 ];
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
@@ -13,6 +15,11 @@ g.start();
 let cats, enemies, title, ship, final_frontier, bullet, spawner;
 
 function load() {
+      //Display the file currently being loaded
+  console.log(`loading: ${g.loadingFile}`);
+
+  //Display the percentage of files currently loaded
+  console.log(`progress: ${g.loadingProgress}`);
     g.loadingBar();
 }
 
