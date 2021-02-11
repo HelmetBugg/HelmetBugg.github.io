@@ -36,18 +36,22 @@ function setup() {
     playButton.x = 400; 
     playButton.y = 350;
 
-	finalFrontier = g.rectangle(512, 512, "black");
+    finalFrontier = g.rectangle(512, 512, "black");
+    healthbarFg = g.rectangle(100, 20, "red");
+    healthbarBg = g.rectangle(100, 20, "white");
+    healthbarBg.y = healthbarFg.y = 491;
+    healthbarBg.x = healthbarFg.x = 513;
     ship = g.circle(25, "blue", "black", 5, 238, 400);
     bullets = [];
     enemies = [];
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
 	titleScene = g.group(title, playButton);
-    gameScene = g.group(ship, spawner);
+    gameScene = g.group(healthbarBg, healthbarFg);
 
     g.makeInteractive(playButton);
     playButton.press = function () {
         g.slide(titleScene, -514, 0, 30, "decelerationCubed");
-        //g.slide(gameScene, -514, 0, 30, "decelerationCubed");
+        g.slide(gameScene, -514, 0, 30, "decelerationCubed");
         music.loop = true;
         music.play();
         once = true;
