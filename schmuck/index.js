@@ -126,6 +126,7 @@ function play() {
     g.move(enemies);
     enemies = enemies.filter(function (enemy) {
         if(g.hitTestCircle(ship, enemy)){
+            enemyDeathSound.play();
             g.remove(enemy);
             return false;
         }
