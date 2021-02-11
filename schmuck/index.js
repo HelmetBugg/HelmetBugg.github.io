@@ -1,7 +1,5 @@
 let thingsToLoad = [
-    "res/sounds/explosion.wav",
-    "res/sounds/music.wav",
-    "res/sounds/shoot.wav"    
+    "shoot.wav"    
 ];
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
@@ -24,6 +22,8 @@ function load() {
 }
 
 function setup() {
+    music = g.sound("shoot.wav");
+
     title = g.text("Schmuck " + version, "38px puzzler", "red");
     g.stage.putCenter(title);
     title.pivotX = 0.5;
