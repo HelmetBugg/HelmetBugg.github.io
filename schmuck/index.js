@@ -12,7 +12,7 @@ let once = false;
 //Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
 g.start();
-let cats, enemies, title, ship, final_frontier, bullet, spawner;
+let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg;
 
 function load() {
       //Display the file currently being loaded
@@ -120,7 +120,7 @@ function play() {
         });
 
         if (boundsCollision || enemyCollision){
-            console.log("collis");
+           
             g.remove(bullet);
             return false;
         } 
@@ -131,6 +131,13 @@ function play() {
     enemies = enemies.filter(function (enemy) {
         if(g.hitTestCircle(ship, enemy)){
             enemyDeathSound.play();
+			healthbarFg.x -=40;
+				if(healthbarFg.x <=413){
+					gameOver = g.text("Game Over", "42px puzzler", "red");
+					gameOver.x = g.canvas.height / 2;
+					gameOver.setPivot(0.5, 0.5);
+					g.pause();
+				}
             g.remove(enemy);
             return false;
         }
