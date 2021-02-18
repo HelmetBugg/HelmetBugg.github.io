@@ -8,6 +8,7 @@ let g = hexi(512, 512, setup, thingsToLoad, load);
 g.fps = 30;
 let version = 0.2;
 let once = false;
+let score = 0;
 
 //Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
@@ -27,7 +28,9 @@ function setup() {
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
-
+	
+	
+	
     title = g.text("Schmuck " + version, "38px puzzler", "red");
     g.stage.putCenter(title);
     title.pivotX = 0.5;
@@ -35,18 +38,22 @@ function setup() {
     playButton = g.text("Play", "38px puzzler", "red");
     playButton.x = 400; 
     playButton.y = 350;
-
+	
+	scoreText = g.text(score, "14px puzzler", "yellow");
+	
     finalFrontier = g.rectangle(512, 512, "black");
     healthbarFg = g.rectangle(100, 20, "red");
     healthbarBg = g.rectangle(100, 20, "white");
     healthbarBg.y = healthbarFg.y = 491;
     healthbarBg.x = healthbarFg.x = 513;
+	scoreText.y = 491;
+	scoreText.x = 620;
     ship = g.circle(25, "blue", "black", 5, 238, 400);
     bullets = [];
     enemies = [];
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
 	titleScene = g.group(title, playButton);
-    gameScene = g.group(healthbarBg, healthbarFg);
+    gameScene = g.group(healthbarBg, healthbarFg, scoreText);
 
     g.makeInteractive(playButton);
     playButton.press = function () {
@@ -114,6 +121,8 @@ function play() {
                 enemyDeathSound.play();
                 g.remove(enemy);
                 enemyCollision = true;
+				score+=50;
+				scoreText.text = score;
                 return false;
             }
             return true;
