@@ -29,7 +29,7 @@ function setup() {
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
 	
-	
+	shootSound.volume = enemyDeathSound.volume = 0.5;
 	
     title = g.text("Schmuck " + version, "38px puzzler", "red");
     g.stage.putCenter(title);
