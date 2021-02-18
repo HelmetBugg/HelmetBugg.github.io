@@ -15,7 +15,7 @@ let score = 0;
 //Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
 g.start();
-let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg;
+let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying;
 
 function load() {
       //Display the file currently being loaded
@@ -27,6 +27,9 @@ function load() {
 }
 
 function setup() {
+
+    isPlaying = false;
+
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
@@ -61,6 +64,8 @@ function setup() {
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
 	titleScene = g.group(title, playButton);
     gameScene = g.group(healthbarBg, healthbarFg, scoreText);
+
+
 
     g.makeInteractive(playButton);
     playButton.press = function () {
@@ -107,20 +112,31 @@ function setup() {
     g.state = play;
 }
 
-function play() {
-    
+function spawnEnemies() {
     if (once){
         once = false;
         // Set enemy spawner
-        spawner.interval = setInterval(function(){ 
-            g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
-            function () {
-                froggy = g.sprite("res/images/pissy_frog.png");
-                froggy.scale.x = froggy.scale.y = 0.4;
-                return froggy;
-            }); 
+        spawner.interval = setInterval(function(){
+            if(isPlaying){
+                isPlaying = false;
+                g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
+                function () {
+                    froggy = g.sprite("res/images/pissy_frog.png");
+                    froggy.scale.x = froggy.scale.y = 0.4;
+                    return froggy;
+                }); 
+        }
         }, 300);
+        
     }
+}
+
+
+
+function play() {
+
+    isPlaying = true;
+    spawnEnemies();
 
     g.move(ship);
     g.move(bullets);
