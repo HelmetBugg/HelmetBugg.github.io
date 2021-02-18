@@ -6,7 +6,7 @@ let thingsToLoad = [
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
 g.fps = 30;
-let version = 0.1;
+let version = 0.2;
 let once = false;
 
 //Optionally scale and align the canvas inside the browser window
@@ -97,10 +97,10 @@ function play() {
     if (once){
         once = false;
         // Set enemy spawner
-        setInterval(function(){ 
+        spawner.interval = setInterval(function(){ 
             g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
             function () {return g.circle(12, "red");}); 
-         }, 300);
+        }, 300);
     }
 
     g.move(ship);
@@ -120,7 +120,6 @@ function play() {
         });
 
         if (boundsCollision || enemyCollision){
-           
             g.remove(bullet);
             return false;
         } 
@@ -136,6 +135,7 @@ function play() {
 					gameOver = g.text("Game Over", "42px puzzler", "red");
 					gameOver.x = g.canvas.height / 2;
 					gameOver.setPivot(0.5, 0.5);
+                    clearInterval(spawner.interval);
 					g.pause();
 				}
             g.remove(enemy);
@@ -143,7 +143,4 @@ function play() {
         }
         return true;
     });
-
-    
-
 }
