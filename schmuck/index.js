@@ -1,7 +1,9 @@
 let thingsToLoad = [
     "res/sounds/music.wav",
     "res/sounds/shoot.wav",
-    "res/sounds/explosion.wav"
+    "res/sounds/explosion.wav",
+    "res/images/pissy_frog.png",
+    "res/images/starship_duck.png"
 ];
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
@@ -39,7 +41,7 @@ function setup() {
     playButton.x = 400; 
     playButton.y = 350;
 	
-	scoreText = g.text(score, "14px puzzler", "yellow");
+	scoreText = g.text("Score: " + score, "14px puzzler", "yellow");
 	
     finalFrontier = g.rectangle(512, 512, "black");
     healthbarFg = g.rectangle(100, 20, "red");
@@ -48,7 +50,12 @@ function setup() {
     healthbarBg.x = healthbarFg.x = 513;
 	scoreText.y = 491;
 	scoreText.x = 620;
-    ship = g.circle(25, "blue", "black", 5, 238, 400);
+
+    ship = g.sprite("res/images/starship_duck.png");
+    ship.x = 238;
+    ship.y = 400;
+    ship.scale.x = ship.scale.y = 0.7;
+
     bullets = [];
     enemies = [];
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
@@ -101,12 +108,17 @@ function setup() {
 }
 
 function play() {
+    
     if (once){
         once = false;
         // Set enemy spawner
         spawner.interval = setInterval(function(){ 
             g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
-            function () {return g.circle(12, "red");}); 
+            function () {
+                froggy = g.sprite("res/images/pissy_frog.png");
+                froggy.scale.x = froggy.scale.y = 0.4;
+                return froggy;
+            }); 
         }, 300);
     }
 
@@ -117,12 +129,12 @@ function play() {
         var boundsCollision = g.outsideBounds(bullet, g.stage);
         var enemyCollision = false;
         enemies = enemies.filter(function (enemy) {
-            if(g.hitTestCircle(bullet, enemy)){
+            if(g.hit(bullet, enemy)){
                 enemyDeathSound.play();
                 g.remove(enemy);
                 enemyCollision = true;
 				score+=50;
-				scoreText.text = score;
+				scoreText.text = "Score: " + score;
                 return false;
             }
             return true;
@@ -137,7 +149,7 @@ function play() {
 
     g.move(enemies);
     enemies = enemies.filter(function (enemy) {
-        if(g.hitTestCircle(ship, enemy)){
+        if(g.hit(ship, enemy)){
             enemyDeathSound.play();
 			healthbarFg.x -=40;
 				if(healthbarFg.x <=413){
