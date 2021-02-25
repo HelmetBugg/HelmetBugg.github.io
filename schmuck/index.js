@@ -8,7 +8,7 @@ let thingsToLoad = [
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
 g.fps = 30;
-let version = 0.2;
+let version = 0.3;
 let once = false;
 let score = 0;
 

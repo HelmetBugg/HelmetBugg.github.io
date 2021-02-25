@@ -2,7 +2,7 @@ function updateEnemies(){
     for (i = 0; i < enemies.length; i++) {
         let enemy = enemies[i];
 
-        if (enemy.index == enemy.pattern.length){
+        if (enemy.index == enemy.pattern.length-1){
             enemy.index = 0;
         } else {
             enemy.index++;
@@ -42,7 +42,7 @@ function spawnEnemies() {
                     return froggy;
                 }); 
             }
-        }, 300);
+        }, 400);
 
         // Start update of enemies movement patterns.
         spawner.interval = setInterval(function(){
