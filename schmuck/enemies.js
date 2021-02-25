@@ -42,8 +42,8 @@ function spawnEnemies() {
                 isPlaying = false;
                 g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -10, enemies, 
                 function () {
-                    let froggy = goblin(g);
-                    return froggy;
+                    let enemy = goose(g);
+                    return enemy;
                 }); 
             }
         }, 400);
@@ -73,6 +73,17 @@ function goblin(g){
     sprite.index = 0;
     sprite.pattern = [
        '|', '<', '<', '<', '>','<','<', '|', ">", ">",">", "<",">", ">", "|"
+    ];
+    return sprite;
+}
+
+function goose(g){
+    let sprite = g.sprite("res/images/pissy_frog.png");
+    sprite.scale.x = sprite.scale.y = 0.4;
+    sprite.speed = 9;
+    sprite.index = 0;
+    sprite.pattern = [
+       '|', '|', '<', '>', '<','>','|', '|', "<", ">","<", ">","|", "|"
     ];
     return sprite;
 }
