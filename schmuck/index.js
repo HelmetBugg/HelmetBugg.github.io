@@ -58,6 +58,8 @@ function setup() {
     ship.x = 238;
     ship.y = 400;
     ship.scale.x = ship.scale.y = 0.7;
+    shipSpeedLeft = -5;
+    shipSpeedRight = 5;
 
     bullets = [];
     enemies = [];
@@ -82,22 +84,26 @@ function setup() {
     space = g.keyboard(32);
 
     leftArrow.press = () => {
-        ship.vx = -5;
+        ship.vx = shipSpeedLeft;
 
     };
 
     leftArrow.release = () => {
         if (!rightArrow.isDown) {
             ship.vx = 0;
+        } else {
+            ship.vx = shipSpeedRight;
         }
     };
     rightArrow.press = () => {
-        ship.vx = 5;
+        ship.vx = shipSpeedRight;
 
     };
     rightArrow.release = () => {
         if (!leftArrow.isDown) {
             ship.vx = 0;
+        } else {
+            ship.vx = shipSpeedLeft;
         }
     };
     space.press = () => {
@@ -169,7 +175,7 @@ function play() {
     });
 
     g.move(enemies);
-    enemies = enemies.filter(function (enemy) {
+    /*enemies = enemies.filter(function (enemy) {
         if (g.hit(ship, enemy)) {
             enemyDeathSound.play();
             healthbarFg.x -= 40;
@@ -184,5 +190,5 @@ function play() {
             return false;
         }
         return true;
-    });
+    });*/
 }
