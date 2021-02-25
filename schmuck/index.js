@@ -18,16 +18,14 @@ g.start();
 let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying;
 
 function load() {
-      //Display the file currently being loaded
-  console.log(`loading: ${g.loadingFile}`);
-
-  //Display the percentage of files currently loaded
-  console.log(`progress: ${g.loadingProgress}`);
+    //Display the file currently being loaded
+    console.log(`loading: ${g.loadingFile}`);
+    //Display the percentage of files currently loaded
+    console.log(`progress: ${g.loadingProgress}`);
     g.loadingBar();
 }
 
 function setup() {
-
     isPlaying = false;
 
     music = g.sound("res/sounds/music.wav");
@@ -64,8 +62,6 @@ function setup() {
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
 	titleScene = g.group(title, playButton);
     gameScene = g.group(healthbarBg, healthbarFg, scoreText);
-
-
 
     g.makeInteractive(playButton);
     playButton.press = function () {
@@ -112,32 +108,11 @@ function setup() {
     g.state = play;
 }
 
-function spawnEnemies() {
-    if (once){
-        once = false;
-        // Set enemy spawner
-        spawner.interval = setInterval(function(){
-            if(isPlaying){
-                isPlaying = false;
-                g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
-                function () {
-                    froggy = g.sprite("res/images/pissy_frog.png");
-                    froggy.scale.x = froggy.scale.y = 0.4;
-                    return froggy;
-                }); 
-        }
-        }, 300);
-        
-    }
-}
-
-
-
 function play() {
-
     isPlaying = true;
     spawnEnemies();
 
+    
     g.move(ship);
     g.move(bullets);
     // Removing Bullets out of bounds.
@@ -155,7 +130,6 @@ function play() {
             }
             return true;
         });
-
         if (boundsCollision || enemyCollision){
             g.remove(bullet);
             return false;
