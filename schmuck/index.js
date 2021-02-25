@@ -155,7 +155,7 @@ function play() {
     });
 
     g.move(enemies);
-    /*enemies = enemies.filter(function (enemy) {
+    enemies = enemies.filter(function (enemy) {
         if (g.hit(ship, enemy)) {
             enemyDeathSound.play();
             healthbarFg.x -= 40;
@@ -170,5 +170,5 @@ function play() {
             return false;
         }
         return true;
-    });*/
+    });
 }
