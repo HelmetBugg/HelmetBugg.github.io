@@ -8,7 +8,7 @@ let thingsToLoad = [
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
 g.fps = 30;
-let version = 0.2;
+let version = 0.3;
 let once = false;
 let score = 0;
 
@@ -20,14 +20,12 @@ let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, is
 function load() {
     //Display the file currently being loaded
     console.log(`loading: ${g.loadingFile}`);
-
     //Display the percentage of files currently loaded
     console.log(`progress: ${g.loadingProgress}`);
     g.loadingBar();
 }
 
 function setup() {
-
     isPlaying = false;
 
     music = g.sound("res/sounds/music.wav");
@@ -117,27 +115,8 @@ function setup() {
     g.state = play;
 }
 
-function spawnEnemies() {
-    if (once) {
-        once = false;
-        // Set enemy spawner
-        spawner.interval = setInterval(function () {
-            if (isPlaying) {
-                isPlaying = false;
-                g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies,
-                    function () {
-                    froggy = g.sprite("res/images/pissy_frog.png");
-                    froggy.scale.x = froggy.scale.y = 0.4;
-                    return froggy;
-                });
-            }
-        }, 300);
-
-    }
-}
 
 function play() {
-
     isPlaying = true;
     spawnEnemies();
 
@@ -149,6 +128,7 @@ function play() {
 		ship.x -= 5;
 	}
 	
+
     g.move(ship);
     g.move(bullets);
     // Removing Bullets out of bounds.
