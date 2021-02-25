@@ -122,12 +122,9 @@ function play() {
 
 	if (ship.x <= 0){
 		ship.x += 5;
-	}
-	
-	if (ship.x >= 490) {
+	} else if (ship.x >= 490) {
 		ship.x -= 5;
 	}
-	
 
     g.move(ship);
     g.move(bullets);
