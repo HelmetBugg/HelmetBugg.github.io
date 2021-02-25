@@ -65,7 +65,7 @@ function spawnEnemies() {
 function dart(g){
     let sprite = g.sprite("res/images/pissy_frog.png");
     sprite.scale.x = sprite.scale.y = 0.4;
-    sprite.speed = 6;
+    sprite.speed = 8;
     sprite.index = 0;
     sprite.pattern = [
        '|', "|"
@@ -77,7 +77,7 @@ function dart(g){
 function goblin(g){
     let sprite = g.sprite("res/images/pissy_frog.png");
     sprite.scale.x = sprite.scale.y = 0.4;
-    sprite.speed = 8;
+    sprite.speed = 7;
     sprite.index = 0;
     sprite.pattern = [
        '|', '<', '<', '<', '>','<','<', '|', ">", ">",">", "<",">", ">", "|"
