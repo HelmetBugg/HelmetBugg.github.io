@@ -9,18 +9,22 @@ function updateEnemies(){
         }
 
         switch(enemy.pattern[enemy.index]) {
+            // Straight
             case '|':
                 enemy.vx = 0;
                 enemy.vy = enemy.speed;
                 break;
+            // Left
             case '<':
                 enemy.vx = -1 * enemy.speed;
                 enemy.vy = 0;
                 break;
+            // Right
             case '>':
                 enemy.vx = 1 * enemy.speed;
                 enemy.vy = 0;
                 break;
+            // Freeze
             default:
                 enemy.vx = 0;
                 enemy.vy = 0;
@@ -52,12 +56,12 @@ function spawnEnemies() {
 }
 
 function crab(g){
-    let crab = g.sprite("res/images/pissy_frog.png");
-    crab.scale.x = crab.scale.y = 0.4;
-    crab.speed = 6;
-    crab.index = 0;
-    crab.pattern = [
+    let sprite = g.sprite("res/images/pissy_frog.png");
+    sprite.scale.x = crab.scale.y = 0.4;
+    sprite.speed = 6;
+    sprite.index = 0;
+    sprite.pattern = [
        '|',  '<', '<', '|', ">", ">", "|"
     ];
-    return crab;
+    return sprite;
 }
