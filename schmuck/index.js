@@ -18,11 +18,11 @@ g.start();
 let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying;
 
 function load() {
-      //Display the file currently being loaded
-  console.log(`loading: ${g.loadingFile}`);
+    //Display the file currently being loaded
+    console.log(`loading: ${g.loadingFile}`);
 
-  //Display the percentage of files currently loaded
-  console.log(`progress: ${g.loadingProgress}`);
+    //Display the percentage of files currently loaded
+    console.log(`progress: ${g.loadingProgress}`);
     g.loadingBar();
 }
 
@@ -33,26 +33,26 @@ function setup() {
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
-	
-	shootSound.volume = enemyDeathSound.volume = 0.5;
-	
+
+    shootSound.volume = enemyDeathSound.volume = 0.5;
+
     title = g.text("Schmuck " + version, "38px puzzler", "red");
     g.stage.putCenter(title);
     title.pivotX = 0.5;
     title.pivotY = 0.5;
     playButton = g.text("Play", "38px puzzler", "red");
-    playButton.x = 400; 
+    playButton.x = 400;
     playButton.y = 350;
-	
-	scoreText = g.text("Score: " + score, "14px puzzler", "yellow");
-	
+
+    scoreText = g.text("Score: " + score, "14px puzzler", "yellow");
+
     finalFrontier = g.rectangle(512, 512, "black");
     healthbarFg = g.rectangle(100, 20, "red");
     healthbarBg = g.rectangle(100, 20, "white");
     healthbarBg.y = healthbarFg.y = 491;
     healthbarBg.x = healthbarFg.x = 513;
-	scoreText.y = 491;
-	scoreText.x = 620;
+    scoreText.y = 491;
+    scoreText.x = 620;
 
     ship = g.sprite("res/images/starship_duck.png");
     ship.x = 238;
@@ -62,10 +62,8 @@ function setup() {
     bullets = [];
     enemies = [];
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
-	titleScene = g.group(title, playButton);
+    titleScene = g.group(title, playButton);
     gameScene = g.group(healthbarBg, healthbarFg, scoreText);
-
-
 
     g.makeInteractive(playButton);
     playButton.press = function () {
@@ -82,30 +80,31 @@ function setup() {
     rightArrow = g.keyboard(39),
     downArrow = g.keyboard(40),
     space = g.keyboard(32);
+
     leftArrow.press = () => {
         ship.vx = -5;
-        ship.vy = 0;
+
     };
 
     leftArrow.release = () => {
-        if (!rightArrow.isDown && ship.vy === 0) {
+        if (!rightArrow.isDown) {
             ship.vx = 0;
         }
     };
     rightArrow.press = () => {
         ship.vx = 5;
-        ship.vy = 0;
+
     };
     rightArrow.release = () => {
-        if (!leftArrow.isDown && ship.vy === 0) {
+        if (!leftArrow.isDown) {
             ship.vx = 0;
         }
     };
     space.press = () => {
         shootSound.play();
-        g.shoot(ship, 4.71, 12.5, 12.5, g.stage, 10, bullets, 
-        function () {
-          return g.circle(8, "yellow");
+        g.shoot(ship, 4.71, 12.5, 12.5, g.stage, 10, bullets,
+            function () {
+            return g.circle(8, "yellow");
         });
     };
 
@@ -113,31 +112,37 @@ function setup() {
 }
 
 function spawnEnemies() {
-    if (once){
+    if (once) {
         once = false;
         // Set enemy spawner
-        spawner.interval = setInterval(function(){
-            if(isPlaying){
+        spawner.interval = setInterval(function () {
+            if (isPlaying) {
                 isPlaying = false;
-                g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies, 
-                function () {
+                g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -7, enemies,
+                    function () {
                     froggy = g.sprite("res/images/pissy_frog.png");
                     froggy.scale.x = froggy.scale.y = 0.4;
                     return froggy;
-                }); 
-        }
+                });
+            }
         }, 300);
-        
+
     }
 }
-
-
 
 function play() {
 
     isPlaying = true;
     spawnEnemies();
 
+	if (ship.x <= 0){
+		ship.x += 5;
+	}
+	
+	if (ship.x >= 490) {
+		ship.x -= 5;
+	}
+	
     g.move(ship);
     g.move(bullets);
     // Removing Bullets out of bounds.
@@ -145,36 +150,36 @@ function play() {
         var boundsCollision = g.outsideBounds(bullet, g.stage);
         var enemyCollision = false;
         enemies = enemies.filter(function (enemy) {
-            if(g.hit(bullet, enemy)){
+            if (g.hit(bullet, enemy)) {
                 enemyDeathSound.play();
                 g.remove(enemy);
                 enemyCollision = true;
-				score+=50;
-				scoreText.text = "Score: " + score;
+                score += 50;
+                scoreText.text = "Score: " + score;
                 return false;
             }
             return true;
         });
 
-        if (boundsCollision || enemyCollision){
+        if (boundsCollision || enemyCollision) {
             g.remove(bullet);
             return false;
-        } 
+        }
         return true;
     });
 
     g.move(enemies);
     enemies = enemies.filter(function (enemy) {
-        if(g.hit(ship, enemy)){
+        if (g.hit(ship, enemy)) {
             enemyDeathSound.play();
-			healthbarFg.x -=40;
-				if(healthbarFg.x <=413){
-					gameOver = g.text("Game Over", "42px puzzler", "red");
-					gameOver.x = g.canvas.height / 2;
-					gameOver.setPivot(0.5, 0.5);
-                    clearInterval(spawner.interval);
-					g.pause();
-				}
+            healthbarFg.x -= 40;
+            if (healthbarFg.x <= 413) {
+                gameOver = g.text("Game Over", "42px puzzler", "red");
+                gameOver.x = g.canvas.height / 2;
+                gameOver.setPivot(0.5, 0.5);
+                clearInterval(spawner.interval);
+                g.pause();
+            }
             g.remove(enemy);
             return false;
         }
