@@ -3,7 +3,8 @@ let thingsToLoad = [
     "res/sounds/shoot.wav",
     "res/sounds/explosion.wav",
     "res/images/pissy_frog.png",
-    "res/images/starship_duck.png"
+    "res/images/starship_duck.png",
+    "res/images/goose_boss.png"
 ];
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
@@ -15,7 +16,7 @@ let score = 0;
 //Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
 g.start();
-let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying;
+let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying, spawnedBoss;
 
 function load() {
     //Display the file currently being loaded
@@ -27,6 +28,7 @@ function load() {
 
 function setup() {
     isPlaying = false;
+    spawnedBoss = false;
 
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
@@ -126,6 +128,11 @@ function play() {
 		ship.x -= 5;
 	}
 
+    if(score > 50 && spawnedBoss == false){
+        spawnedBoss = true;
+        g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function() {return gooseBoss(g)});
+    }
+
     g.move(ship);
     g.move(bullets);
     // Removing Bullets out of bounds.
@@ -137,7 +144,7 @@ function play() {
                 enemyDeathSound.play();
                 g.remove(enemy);
                 enemyCollision = true;
-                score += 50;
+                score += 500;
                 scoreText.text = "Score: " + score;
                 return false;
             }
