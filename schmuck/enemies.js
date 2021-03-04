@@ -104,6 +104,7 @@ function goose(g){
 
 function gooseBoss(g){
     let sprite = g.sprite("res/images/goose_boss.png");
+	sprite.isBoss = true;
     sprite.scale.x = sprite.scale.y = 0.8;
     sprite.speed = 5;
     sprite.index = 0;

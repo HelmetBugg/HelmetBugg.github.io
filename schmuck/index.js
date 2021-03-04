@@ -155,7 +155,14 @@ function play() {
                     console.log("KILL");
 
                     scoreText.text = "Score: " + score;
-
+					
+					if (enemy.isBoss){
+						winrar = g.text("You Are WinRAR ", "38px puzzler", "yellow")
+						winrar.x = 256;
+						winrar.y = 256;
+						winrar.anchor.set(0.5, 0.5);
+					}
+					
                     return false;
                 }
                 enemyCollision = true;
