@@ -63,8 +63,8 @@ function spawnEnemies() {
 
 
 function dart(g){
-    let sprite = g.sprite("res/images/pissy_frog.png");
-    sprite.scale.x = sprite.scale.y = 0.4;
+    let sprite = g.sprite("res/images/dart.png");
+    sprite.scale.x = sprite.scale.y = 0.8;
     sprite.speed = 8;
     sprite.index = 0;
     sprite.pattern = [
@@ -75,8 +75,8 @@ function dart(g){
 
 
 function goblin(g){
-    let sprite = g.sprite("res/images/pissy_frog.png");
-    sprite.scale.x = sprite.scale.y = 0.4;
+    let sprite = g.sprite("res/images/goblin.png");
+    sprite.scale.x = sprite.scale.y = 0.8;
     sprite.speed = 7;
     sprite.index = 0;
     sprite.pattern = [
@@ -87,8 +87,8 @@ function goblin(g){
 
 
 function goose(g){
-    let sprite = g.sprite("res/images/pissy_frog.png");
-    sprite.scale.x = sprite.scale.y = 0.4;
+    let sprite = g.sprite("res/images/goose.png");
+    sprite.scale.x = sprite.scale.y = 0.8;
     sprite.speed = 9;
     sprite.index = 0;
     sprite.pattern = [
