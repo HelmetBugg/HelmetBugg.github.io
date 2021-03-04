@@ -110,6 +110,6 @@ function gooseBoss(g){
     sprite.pattern = [
        '<','<','<','<', '>','>','>','>'
     ];
-	sprite.health = 10;
+	sprite.health = 30;
     return sprite;
 }

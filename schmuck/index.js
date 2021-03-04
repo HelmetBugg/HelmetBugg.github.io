@@ -150,7 +150,7 @@ function play() {
 
                     enemyDeathSound.play();
                     g.remove(enemy);
-                    score += 500;
+                    score += 50;
 
                     console.log("KILL");
 
