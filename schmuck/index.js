@@ -130,7 +130,7 @@ function play() {
         ship.x -= 5;
     }
 
-    if (score > 50 && spawnedBoss == false) {
+    if (score > 3500 && spawnedBoss == false) {
         spawnedBoss = true;
         g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function () {
             return gooseBoss(g)
