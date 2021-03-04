@@ -72,6 +72,7 @@ function dart(g){
     sprite.pattern = [
        '|', "|"
     ];
+	sprite.health = 1;
     return sprite;
 }
 
@@ -84,6 +85,7 @@ function goblin(g){
     sprite.pattern = [
        '|', '<', '<', '<', '>','<','<', '|', ">", ">",">", "<",">", ">", "|"
     ];
+	sprite.health = 1;
     return sprite;
 }
 
@@ -96,6 +98,7 @@ function goose(g){
     sprite.pattern = [
        '|', '|', '<', '>', '<','>','|', '|', "<", ">","<", ">","|", "|"
     ];
+	sprite.health = 1;
     return sprite;
 }
 
@@ -107,5 +110,6 @@ function gooseBoss(g){
     sprite.pattern = [
        '<','<','<','<', '>','>','>','>'
     ];
+	sprite.health = 10;
     return sprite;
 }

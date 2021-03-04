@@ -33,7 +33,9 @@ function setup() {
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
-
+	enemyHitSound = g.sound("res/sounds/explosion.wav");
+	enemyDeathSound.playbackRate = 0.5;
+	
     shootSound.volume = enemyDeathSound.volume = 0.5;
 
     title = g.text("Schmuck " + version, "38px puzzler", "red");
@@ -117,20 +119,21 @@ function setup() {
     g.state = play;
 }
 
-
 function play() {
     isPlaying = true;
     spawnEnemies();
 
-	if (ship.x <= 0){
-		ship.x += 5;
-	} else if (ship.x >= 490) {
-		ship.x -= 5;
-	}
+    if (ship.x <= 0) {
+        ship.x += 5;
+    } else if (ship.x >= 490) {
+        ship.x -= 5;
+    }
 
-    if(score > 50 && spawnedBoss == false){
+    if (score > 50 && spawnedBoss == false) {
         spawnedBoss = true;
-        g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function() {return gooseBoss(g)});
+        g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function () {
+            return gooseBoss(g)
+        });
     }
 
     g.move(ship);
@@ -141,12 +144,22 @@ function play() {
         var enemyCollision = false;
         enemies = enemies.filter(function (enemy) {
             if (g.hit(bullet, enemy)) {
-                enemyDeathSound.play();
-                g.remove(enemy);
+                enemy.health = enemy.health - 1;
+                if (enemy.health <= 0) {
+
+                    enemyDeathSound.play();
+                    g.remove(enemy);
+                    score += 500;
+
+                    console.log("KILL");
+
+                    scoreText.text = "Score: " + score;
+
+                    return false;
+                }
                 enemyCollision = true;
-                score += 500;
-                scoreText.text = "Score: " + score;
-                return false;
+				 enemyHitSound.play();
+			
             }
             return true;
         });
