@@ -4,7 +4,8 @@ let thingsToLoad = [
     "res/sounds/explosion.wav",
     "res/images/pissy_frog.png",
     "res/images/starship_duck.png",
-    "res/images/goose_boss.png"
+    "res/images/goose_boss.png",
+	"res/sounds/bounce.wav"
 ];
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
@@ -33,8 +34,8 @@ function setup() {
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
-	enemyHitSound = g.sound("res/sounds/explosion.wav");
-	enemyDeathSound.playbackRate = 0.5;
+	enemyHitSound = g.sound("res/sounds/bounce.wav");
+	//enemyDeathSound.playbackRate = 0.5;
 	
     shootSound.volume = enemyDeathSound.volume = 0.5;
 
