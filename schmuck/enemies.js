@@ -1,13 +1,14 @@
 function updateEnemies(){
+    // Iterate over all enemies, update their movement based on pattern subscripting.
     for (i = 0; i < enemies.length; i++) {
         let enemy = enemies[i];
-
         if (enemy.index == enemy.pattern.length-1){
             enemy.index = 0;
         } else {
             enemy.index++;
         }
 
+        // Update enemy velocities based on next movement pattern.
         switch(enemy.pattern[enemy.index]) {
             // Straight
             case '|':
@@ -38,7 +39,7 @@ function spawnEnemies() {
         once = false;
         // Set enemy spawner.
         spawner.interval = setInterval(function(){
-            if(isPlaying){
+            if(isPlaying && !spawnedBoss){
                 isPlaying = false;
                 g.shoot(spawner, 4.71, Math.random() * (512 - 1), 12.5, g.stage, -10, enemies, 
                 function () {
@@ -106,6 +107,7 @@ function gooseBoss(g){
     let sprite = g.sprite("res/images/goose_boss.png");
 	sprite.isBoss = true;
     sprite.scale.x = sprite.scale.y = 0.8;
+    sprite.anchor.set(0.5, 0.5);
     sprite.speed = 5;
     sprite.index = 0;
     sprite.pattern = [

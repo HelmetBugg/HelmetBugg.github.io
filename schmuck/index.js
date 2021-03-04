@@ -2,7 +2,9 @@ let thingsToLoad = [
     "res/sounds/music.wav",
     "res/sounds/shoot.wav",
     "res/sounds/explosion.wav",
-    "res/images/pissy_frog.png",
+    "res/images/goblin.png",
+    "res/images/dart.png",
+    "res/images/goose.png",
     "res/images/starship_duck.png",
     "res/images/goose_boss.png",
 	"res/sounds/bounce.wav"
@@ -10,11 +12,9 @@ let thingsToLoad = [
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
 g.fps = 30;
-let version = 0.3;
+let version = 0.5;
 let once = false;
 let score = 0;
-
-//Optionally scale and align the canvas inside the browser window
 g.scaleToWindow();
 g.start();
 let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying, spawnedBoss;
@@ -31,18 +31,17 @@ function setup() {
     isPlaying = false;
     spawnedBoss = false;
 
+    // Configure Sound files.
     music = g.sound("res/sounds/music.wav");
     shootSound = g.sound("res/sounds/shoot.wav");
     enemyDeathSound = g.sound("res/sounds/explosion.wav");
 	enemyHitSound = g.sound("res/sounds/bounce.wav");
 	//enemyDeathSound.playbackRate = 0.5;
-	
     shootSound.volume = enemyDeathSound.volume = 0.5;
 
     title = g.text("Schmuck " + version, "38px puzzler", "red");
     g.stage.putCenter(title);
-    title.pivotX = 0.5;
-    title.pivotY = 0.5;
+    title.pivotX = title.pivotY = 0.5;
     playButton = g.text("Play", "38px puzzler", "red");
     playButton.x = 400;
     playButton.y = 350;
@@ -79,18 +78,16 @@ function setup() {
         once = true;
     }
 
-    // controls
+    // Initialize Player Controls
     let leftArrow = g.keyboard(37),
     upArrow = g.keyboard(38),
     rightArrow = g.keyboard(39),
     downArrow = g.keyboard(40),
     space = g.keyboard(32);
-
     leftArrow.press = () => {
         ship.vx = shipSpeedLeft;
 
     };
-
     leftArrow.release = () => {
         if (!rightArrow.isDown) {
             ship.vx = 0;
@@ -117,6 +114,7 @@ function setup() {
         });
     };
 
+    // Start the main game loop.
     g.state = play;
 }
 
@@ -129,17 +127,18 @@ function play() {
     } else if (ship.x >= 490) {
         ship.x -= 5;
     }
+    g.move(ship);
 
+    // Waiting for the right time to spawn the boss, just one boss sprite.
     if (score > 3500 && spawnedBoss == false) {
         spawnedBoss = true;
         g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function () {
-            return gooseBoss(g)
+            return gooseBoss(g);
         });
     }
 
-    g.move(ship);
     g.move(bullets);
-    // Removing Bullets out of bounds.
+    // Removing Bullets out of bounds or that collide with enemies.
     bullets = bullets.filter(function (bullet) {
         var boundsCollision = g.outsideBounds(bullet, g.stage);
         var enemyCollision = false;
@@ -147,27 +146,21 @@ function play() {
             if (g.hit(bullet, enemy)) {
                 enemy.health = enemy.health - 1;
                 if (enemy.health <= 0) {
-
                     enemyDeathSound.play();
                     g.remove(enemy);
+                    enemyCollision = true;
                     score += 50;
-
-                    console.log("KILL");
-
                     scoreText.text = "Score: " + score;
-					
 					if (enemy.isBoss){
 						winrar = g.text("You Are WinRAR ", "38px puzzler", "yellow")
 						winrar.x = 256;
 						winrar.y = 256;
 						winrar.anchor.set(0.5, 0.5);
 					}
-					
                     return false;
                 }
                 enemyCollision = true;
-				 enemyHitSound.play();
-			
+				enemyHitSound.play();
             }
             return true;
         });
