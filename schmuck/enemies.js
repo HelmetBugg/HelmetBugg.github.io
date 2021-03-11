@@ -46,7 +46,7 @@ function spawnEnemies() {
                     console.log(score);
                     if (score >= 1000 && score <= 2500) {
                         enemy = goblin(g);
-                    } else if (score >= 2500 && score <= 3500) {
+                    } else if (score >= 2500) {
                         enemy = goose(g);
                     } else if (score < 1000) {
                         enemy = dart(g);
@@ -104,7 +104,7 @@ function gooseBoss(g) {
     sprite.isBoss = true;
     sprite.scale.x = sprite.scale.y = 0.8;
     sprite.anchor.set(0.5, 0.5);
-    sprite.speed = 5;
+    sprite.speed = 3;
     sprite.index = 0;
     sprite.pattern = [
         '<', '<', '<', '<', '>', '>', '>', '>'

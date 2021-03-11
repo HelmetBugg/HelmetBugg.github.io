@@ -12,12 +12,11 @@ let thingsToLoad = [
 
 let g = hexi(512, 512, setup, thingsToLoad, load);
 g.fps = 30;
-let version = 0.5;
 let once = false;
 let score = 0;
 g.scaleToWindow();
 g.start();
-let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying, spawnedBoss;
+let cats, enemies, title, ship, final_frontier, bullet, spawner, healthbarFg, isPlaying, spawnedBoss, creditsButton;
 
 function load() {
     //Display the file currently being loaded
@@ -39,12 +38,16 @@ function setup() {
 	//enemyDeathSound.playbackRate = 0.5;
     shootSound.volume = enemyDeathSound.volume = 0.5;
 
-    title = g.text("Schmuck " + version, "38px puzzler", "red");
+    title = g.text("Schmuck ", "38px puzzler", "red");
     g.stage.putCenter(title);
     title.pivotX = title.pivotY = 0.5;
     playButton = g.text("Play", "38px puzzler", "red");
     playButton.x = 400;
     playButton.y = 350;
+
+    creditsButton = g.text("Credits", "38px puzzler", "red");
+    creditsButton.x = 400;
+    creditsButton.y = 400;
 
     scoreText = g.text("Score: " + score, "14px puzzler", "yellow");
 
@@ -63,11 +66,17 @@ function setup() {
     shipSpeedLeft = -5;
     shipSpeedRight = 5;
 
+    creditsText = g.text("Created By:\n  Warren Squires\n  Benjamin Keane\n  Brandon Wood", "32px Futura", "white", -258, 256);
+    creditsReturnButton = g.text("Return", "38px puzzler", "red");
+    creditsReturnButton.x = -114;
+    creditsReturnButton.y = 400;
+
     bullets = [];
     enemies = [];
     spawner = g.rectangle(512, 5, "white", "white", 0, 0, -5);
-    titleScene = g.group(title, playButton);
+    titleScene = g.group(title, playButton, creditsButton);
     gameScene = g.group(healthbarBg, healthbarFg, scoreText);
+    creditsScene = g.group(creditsText, creditsReturnButton);
 
     g.makeInteractive(playButton);
     playButton.press = function () {
@@ -76,6 +85,18 @@ function setup() {
         music.loop = true;
         music.play();
         once = true;
+    }
+
+    g.makeInteractive(creditsButton);
+    creditsButton.press = function () {
+        g.slide(titleScene, 514, 0, 30, "decelerationCubed");
+        g.slide(creditsScene, 514, 0, 30, "decelerationCubed");
+    }
+
+    g.makeInteractive(creditsReturnButton);
+    creditsReturnButton.press = function () {
+        g.slide(titleScene, 0, 0, 30, "decelerationCubed");
+        g.slide(creditsScene, 0, 0, 30, "decelerationCubed");
     }
 
     // Initialize Player Controls
@@ -157,10 +178,12 @@ function play() {
 						winrar.y = 256;
 						winrar.anchor.set(0.5, 0.5);
 						clearInterval(enemy.interval);
+
 					}
                     return false;
                 }
                 enemyCollision = true;
+                g.shake(enemy, 0.05, true);
 				enemyHitSound.play();
             }
             return true;
