@@ -130,7 +130,7 @@ function play() {
     g.move(ship);
 
     // Waiting for the right time to spawn the boss, just one boss sprite.
-    if (score > 3500 && spawnedBoss == false) {
+    if (score > 3600 && spawnedBoss == false) {
         spawnedBoss = true;
         g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function () {
             return gooseBoss(g);
@@ -156,6 +156,7 @@ function play() {
 						winrar.x = 256;
 						winrar.y = 256;
 						winrar.anchor.set(0.5, 0.5);
+						clearInterval(enemy.interval);
 					}
                     return false;
                 }
@@ -182,6 +183,7 @@ function play() {
                 gameOver.x = g.canvas.height / 2;
                 gameOver.setPivot(0.5, 0.5);
                 clearInterval(spawner.interval);
+				clearInterval(enemy.interval);
                 g.pause();
             }
             g.remove(enemy);
