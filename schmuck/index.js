@@ -151,7 +151,7 @@ function play() {
     g.move(ship);
 
     // Waiting for the right time to spawn the boss, just one boss sprite.
-    if (score > 3600 && spawnedBoss == false) {
+    if (score > 3750 && spawnedBoss == false) {
         spawnedBoss = true;
         g.shoot(spawner, 4.71, 256, 12.5, g.stage, -10, enemies, function () {
             return gooseBoss(g);
